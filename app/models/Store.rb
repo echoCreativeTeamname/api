@@ -16,7 +16,7 @@ Store
 class Store < ActiveRecord::Base
   belongs_to :chain, class_name: "Storechain"
   has_many :openinghours
-  has_many :products, through: :storechain
+  has_many :products, through: :chain
 
   validates :name, :city, :street, :postalcode, :longitude, :latitude, presence: true
 
