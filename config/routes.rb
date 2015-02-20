@@ -6,7 +6,17 @@ Rails.application.routes.draw do
   #
 
   root 'index#index' # Root of the website
-  scope "/v1_alpha" do # Api version v1_alpha
+
+  get "/v1" => "index#v1"
+  scope "/v1" do # Api version v1_alpha
+
+    #stores
+    get "/stores" => 'stores#all'
+    scope "/store" do
+      get "/:uuid" => 'stores#store'
+    end
+
+
 
 
   end

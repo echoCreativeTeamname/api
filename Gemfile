@@ -7,6 +7,7 @@ gem 'mysql2' # change if you're using another database type
 gem 'bcrypt', '~> 3.1.7' # ActiveModel has_secure_password
 gem 'jbuilder' # use Jbuilder templates for JSON
 gem 'tzinfo-data', platforms: [:mingw, :mswin]
+gem "active_model_serializers", "~> 0.8.0"
 
 # Use unicorn as the app server
 # gem 'unicorn'
