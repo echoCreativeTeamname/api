@@ -12,7 +12,7 @@ Rails.application.routes.draw do
 
     #stores
     resources :stores, only: [:index, :show]
-
+    resources :user, only: [:create]
 
 
 
