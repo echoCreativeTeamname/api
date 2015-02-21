@@ -11,10 +11,7 @@ Rails.application.routes.draw do
   scope "/v1" do # Api version v1_alpha
 
     #stores
-    get "/stores" => 'stores#all'
-    scope "/store" do
-      get "/:uuid" => 'stores#store'
-    end
+    resources :stores, only: [:index, :show]
 
 
 

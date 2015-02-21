@@ -1,10 +1,10 @@
-class ApplicationController < ActionController::API
+class ApiController < ActionController::API
 
   before_filter :parse_request, :authenticate
 
   private
   def parse_request
-    @json = JSON.parse("{}")
+    @json = JSON.parse("{}", symbolize_names: true)
   end
 
   def authenticate
