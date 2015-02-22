@@ -5,6 +5,10 @@ Rails.application.routes.draw do
   #
   #
 
+  match '/404', via: :all, to: 'errors#not_found'
+  match '/422', via: :all, to: 'errors#server_error'
+  match '/500', via: :all, to: 'errors#server_error'
+
   root 'index#index' # Root of the website
 
   get "/v1" => "index#v1"
@@ -12,8 +16,8 @@ Rails.application.routes.draw do
 
     #stores
     resources :stores, only: [:index, :show]
-    resources :user, only: [:create]
-
+    resources :user, only: [:index, :create, :show, :destroy]
+    get "/authenticate" => "user#login"
 
 
   end
