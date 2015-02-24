@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150224161901) do
+ActiveRecord::Schema.define(version: 20150224222236) do
 
   create_table "authentication_tokens", force: :cascade do |t|
     t.integer  "user_id",    limit: 4
@@ -24,6 +24,15 @@ ActiveRecord::Schema.define(version: 20150224161901) do
     t.string  "name",        limit: 255
     t.integer "healthclass", limit: 4
   end
+
+  create_table "ingredients_recipes", id: false, force: :cascade do |t|
+    t.integer "recipe_id",     limit: 4,   null: false
+    t.integer "ingredient_id", limit: 4,   null: false
+    t.string  "amount",        limit: 255
+  end
+
+  add_index "ingredients_recipes", ["ingredient_id"], name: "index_ingredients_recipes_on_ingredient_id", using: :btree
+  add_index "ingredients_recipes", ["recipe_id"], name: "index_ingredients_recipes_on_recipe_id", using: :btree
 
   create_table "openinghours", force: :cascade do |t|
     t.integer "store_id",    limit: 4
@@ -42,12 +51,6 @@ ActiveRecord::Schema.define(version: 20150224161901) do
     t.datetime "lastupdated"
   end
 
-  create_table "recipeingredient", id: false, force: :cascade do |t|
-    t.integer "ingredient_id", limit: 4,   null: false
-    t.integer "recipe_id",     limit: 4,   null: false
-    t.string  "amount",        limit: 255
-  end
-
   create_table "recipes", force: :cascade do |t|
     t.string "uuid",     limit: 255
     t.string "name",     limit: 255
@@ -56,6 +59,14 @@ ActiveRecord::Schema.define(version: 20150224161901) do
     t.string "imageurl", limit: 255
     t.string "videourl", limit: 255
   end
+
+  create_table "recipes_users", id: false, force: :cascade do |t|
+    t.integer "recipe_id", limit: 4, null: false
+    t.integer "user_id",   limit: 4, null: false
+  end
+
+  add_index "recipes_users", ["recipe_id"], name: "index_recipes_users_on_recipe_id", using: :btree
+  add_index "recipes_users", ["user_id"], name: "index_recipes_users_on_user_id", using: :btree
 
   create_table "storechains", force: :cascade do |t|
     t.string   "uuid",        limit: 255

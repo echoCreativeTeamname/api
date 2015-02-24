@@ -1,5 +1,5 @@
 module Api
-  # All functions for users that are not associated with changing/deleting/creating user settings TODO
+  # All functions for users that are not associated with changing/deleting/creating user settings
   class UserInformationController < ApiController
 
     # All nearbye stores. will only answer when address has been set

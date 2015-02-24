@@ -17,7 +17,8 @@ Rails.application.routes.draw do
     scope "/v1" do
 
       # stores
-      resources :stores, only: [:index, :show]
+      get "/stores" => "stores#index"
+      get "/stores/:id" => "stores#show"
 
       # user
       get "/user" => "user#index"

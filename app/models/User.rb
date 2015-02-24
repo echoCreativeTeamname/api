@@ -26,6 +26,7 @@ class User < ActiveRecord::Base
   has_many :authenticationtokens, class_name: "AuthenticationToken", dependent: :destroy
 
   has_and_belongs_to_many :stores
+  has_and_belongs_to_many :recipes
 
   def get_setting(setting_name)
     if(DEFAULT_SETTINGS.key?(setting_name.to_sym))
@@ -50,14 +51,6 @@ class User < ActiveRecord::Base
       set_settings[setting.key.to_sym] = setting.get_value
     end
     return DEFAULT_SETTINGS.merge(set_settings)
-  end
-
-  #UUID
-  before_create :check_uuid
-  def check_uuid
-    unless(self.uuid)
-      self.uuid = SecureRandom.uuid
-    end
   end
 
   def update_stores
@@ -93,6 +86,14 @@ class User < ActiveRecord::Base
         self.stores << sorted_query[:store]
       end
 
+    end
+  end
+
+  #UUID
+  before_create :check_uuid
+  def check_uuid
+    unless(self.uuid)
+      self.uuid = SecureRandom.uuid
     end
   end
 

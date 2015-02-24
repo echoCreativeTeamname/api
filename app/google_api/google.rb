@@ -152,5 +152,3 @@ module Google
     end
   end
 end
-
-STDOUT << Google.distancematrix({latitude: 52.7926, longitude: 6.93824}, [{latitude: 52.2917, longitude: 5.25444}, {latitude: 52.6661, longitude: 4.76581}])
