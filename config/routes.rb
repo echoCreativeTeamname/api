@@ -5,36 +5,47 @@ Rails.application.routes.draw do
   #
   #
 
-  match '/404', via: :all, to: 'errors#not_found'
-  match '/422', via: :all, to: 'errors#server_error'
-  match '/500', via: :all, to: 'errors#server_error'
-
-  root 'index#index' # Root of the website
-
-  get "/v1" => "index#v1"
-  scope "/v1" do # Api version v1_alpha
-
-    # stores
-    resources :stores, only: [:index, :show]
-
-    # user
-    get "/user" => "user#index"
-    get "/user/:id" => "user#show", as: 'userinfo'
-    post "/user" => "user#create"
-    post "/user/:id/settings" => "user#update_settings"
-    post "/user/:id/address" => "user#update_address"
-    delete "/user/:id" => "user#destroy"
-    post "/authenticate" => "user#login"
-    delete "/authenticate" => "user#logout"
-
-    # user-information
-    get "/user/:id/recipes" => "user_information#recipes"
-    delete "/user/:id/recipes" => "user_information#recipes_delete"
-    get "/user/:id/recipes/:recipe_id" => "user_information#recipe"
-    delete "/user/:id/recipes/:recipe_id" => "user_information#recipe_delete"
 
 
+
+
+  namespace :api do
+
+    # Error pages
+    match '/404', via: :all, to: 'errors#not_found'
+    match '/422', via: :all, to: 'errors#server_error'
+    match '/500', via: :all, to: 'errors#server_error'
+
+    # Root of the website
+    root 'index#index'
+
+    # Api version v1_beta
+    get "/v1" => "index#v1"
+    scope "/v1" do
+
+      # stores
+      resources :stores, only: [:index, :show]
+
+      # user
+      get "/user" => "user#index"
+      get "/user/:id" => "user#show", as: 'userinfo'
+      post "/user" => "user#create"
+      post "/user/:id/settings" => "user#update_settings"
+      post "/user/:id/address" => "user#update_address"
+      delete "/user/:id" => "user#destroy"
+      post "/authenticate" => "user#login"
+      delete "/authenticate" => "user#logout"
+
+      # user-information
+      get "/user/:id/recipes" => "user_information#recipes"
+      delete "/user/:id/recipes" => "user_information#recipes_delete"
+      get "/user/:id/recipes/:recipe_id" => "user_information#recipe"
+      delete "/user/:id/recipes/:recipe_id" => "user_information#recipe_delete"
+
+    end
   end
+
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
