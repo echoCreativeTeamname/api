@@ -7,7 +7,7 @@ User
  - city
  - postalcode
  - street
- - latitude (TODO: Google Geocoding API)
+ - latitude
  - longitude
 =end
 
