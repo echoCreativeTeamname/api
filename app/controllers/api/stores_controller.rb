@@ -2,7 +2,7 @@ module Api
   class StoresController < ApiController
 
     def index #/v1/stores
-      stores = ::Store.all
+      stores = ::Store.all.includes(:chain)
 
       if(city = params[:city])
         stores = stores.where(city: city)

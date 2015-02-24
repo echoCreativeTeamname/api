@@ -1,5 +1,5 @@
 class StoreSerializer < ActiveModel::Serializer
-  attributes :uuid, :chain, :name, :city, :street, :postalcode, :longitude, :latitude
+  attributes :uuid, :chain, :name, :city, :street, :postalcode, :latitude, :longitude
 
   def chain
     object.chain.uuid

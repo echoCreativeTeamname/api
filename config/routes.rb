@@ -23,6 +23,7 @@ Rails.application.routes.draw do
       get "/user" => "user#index"
       get "/user/:id" => "user#show", as: 'userinfo'
       post "/user" => "user#create"
+      post "/user/:id/edit" => "user#update"
       post "/user/:id/settings" => "user#update_settings"
       post "/user/:id/address" => "user#update_address"
       delete "/user/:id" => "user#destroy"
