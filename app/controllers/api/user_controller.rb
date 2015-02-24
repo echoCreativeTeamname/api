@@ -39,6 +39,7 @@ module Api
 
           #Setup authentication
           newtoken = AuthenticationToken.create(user: newuser, valid_till: Time.now+(3600*12))
+
           @auth_user = newuser
           @auth = newtoken
 
@@ -46,8 +47,10 @@ module Api
             update_address(false)
           end
 
-          newtoken = AuthenticationToken.create(user: newuser, valid_till: Time.now+(3600*12))
-          render json: {user: newuser.to_json, authentication: newtoken.to_json}, status: 201
+          render json: {
+            user: ::UserSerializer.new(newuser, root: false).as_json,
+            authentication: ::AuthenticationTokenSmallSerializer.new(newtoken, root:false).as_json
+          }, status: 201
 
         else
           render json: {error: true, message: "Could not save new user to the database"}, status: 500
@@ -55,9 +58,25 @@ module Api
       end
     end
 
-    def update # /v1/user/:id (PUT/PATCH) TODO (not important right now)
+    def update # /v1/user/:id (POST)
       if(has_authentication)
+        can_change = ["email", "password"]
+        values = {}
 
+        User.column_names.each do |column|
+          next unless can_change.include? column
+          values[column.to_sym] = params[column.to_sym] if params[column.to_sym]
+        end
+
+        if((params[:city] && params[:street] && params[:postalcode]) || (params[:latitude] && params[:longitude]))
+          update_address(false)
+        end
+
+        if(@auth_user.update_attributes(values))
+          render json: @auth_user, root: "user", status: 200
+        else
+          render json: {error: true, message: "something went wrong while saving"}, status: 500
+        end
       end
     end
 
