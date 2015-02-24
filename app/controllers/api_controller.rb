@@ -19,7 +19,7 @@ class ApiController < ActionController::API
   end
 
   def has_authentication(user_uuid = "")
-    authenticate
+    authenticate unless(@auth_user)
     if(@auth_user && (user_uuid == "" || @auth_user.uuid == user_uuid))
       true
     else

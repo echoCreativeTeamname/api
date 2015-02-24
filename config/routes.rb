@@ -14,10 +14,24 @@ Rails.application.routes.draw do
   get "/v1" => "index#v1"
   scope "/v1" do # Api version v1_alpha
 
-    #stores
+    # stores
     resources :stores, only: [:index, :show]
-    resources :user, only: [:index, :create, :show, :destroy]
-    get "/authenticate" => "user#login"
+
+    # user
+    get "/user" => "user#index"
+    get "/user/:id" => "user#show", as: 'userinfo'
+    post "/user" => "user#create"
+    post "/user/:id/settings" => "user#update_settings"
+    post "/user/:id/address" => "user#update_address"
+    delete "/user/:id" => "user#destroy"
+    post "/authenticate" => "user#login"
+    delete "/authenticate" => "user#logout"
+
+    # user-information
+    get "/user/:id/recipes" => "user_information#recipes"
+    delete "/user/:id/recipes" => "user_information#recipes_delete"
+    get "/user/:id/recipes/:recipe_id" => "user_information#recipe"
+    delete "/user/:id/recipes/:recipe_id" => "user_information#recipe_delete"
 
 
   end

@@ -14,3 +14,7 @@ end
 Dir[Rails.root + 'app/models/**/*.rb'].each do |path|
   require path
 end
+
+Dir[Rails.root + 'app/google_api/**/*.rb'].each do |path|
+  require path
+end

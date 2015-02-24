@@ -26,7 +26,7 @@ class User < ActiveRecord::Base
   has_many :authenticationtokens, class_name: "AuthenticationToken", dependent: :destroy
 
   def get_setting(setting_name)
-    if(DEFAULT_SETTINGS[setting_name.to_sym].present?)
+    if(DEFAULT_SETTINGS.key?(setting_name.to_sym))
       return self.settings.where(key: setting_name.to_s).first.get_value || DEFAULT_SETTINGS[setting_name.to_sym]
     else
       return false
@@ -34,7 +34,7 @@ class User < ActiveRecord::Base
   end
 
   def set_setting(setting_name, value)
-    if(DEFAULT_SETTINGS[setting_name.to_sym].present?)
+    if(DEFAULT_SETTINGS.key?(setting_name.to_sym))
       self.settings.where(key: setting_name.to_s).destroy_all
       return self.settings.new(key: setting_name.to_s, value: value).save ? true : false
     else
