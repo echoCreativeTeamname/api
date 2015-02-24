@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150222154025) do
+ActiveRecord::Schema.define(version: 20150224161901) do
 
   create_table "authentication_tokens", force: :cascade do |t|
     t.integer  "user_id",    limit: 4
@@ -78,7 +78,21 @@ ActiveRecord::Schema.define(version: 20150222154025) do
     t.datetime "lastupdated"
   end
 
+  create_table "stores_users", id: false, force: :cascade do |t|
+    t.integer "store_id", limit: 4, null: false
+    t.integer "user_id",  limit: 4, null: false
+  end
+
+  add_index "stores_users", ["store_id"], name: "index_stores_users_on_store_id", using: :btree
+  add_index "stores_users", ["user_id"], name: "index_stores_users_on_user_id", using: :btree
+
   create_table "tables", force: :cascade do |t|
+  end
+
+  create_table "user_settings", force: :cascade do |t|
+    t.integer "user_id", limit: 4
+    t.string  "key",     limit: 255
+    t.string  "value",   limit: 255
   end
 
   create_table "users", force: :cascade do |t|
@@ -90,12 +104,6 @@ ActiveRecord::Schema.define(version: 20150222154025) do
     t.string "street",     limit: 255
     t.float  "latitude",   limit: 24
     t.float  "longitude",  limit: 24
-  end
-
-  create_table "user_settings", force: :cascade do |t|
-    t.integer "user_id", limit: 4
-    t.string  "key",     limit: 255
-    t.string  "value",   limit: 255
   end
 
 end

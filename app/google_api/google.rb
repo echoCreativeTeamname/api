@@ -9,7 +9,7 @@ API key: config/google.yml -> api_simple_key is required
 
 module Google
 
-  @api_key = YAML::load(File.open((Rails.root || '../../') + 'config/google.yml'))["api_simple_key"] || ""
+  @api_key = YAML::load(File.open(File.dirname(__FILE__) + '/../../' + 'config/google.yml'))["api_simple_key"] || ""
 
   def self.geocode(options = {})
 
@@ -66,7 +66,7 @@ module Google
       unless(query["status"] == "OK")
         raise Exceptions::APILimitReachedError if(query["status"] == "OVER_QUERY_LIMIT")
         raise Exceptions::InvalidLocationError if(query["status"] == "ZERO_RESULTS")
-        raise ::StandardError
+        raise Exceptions::GoogleAPIError
       end
 
       street_number = ""
@@ -98,11 +98,53 @@ module Google
 
   end
 
+  def self.distancematrix(origin, destinations)
+
+    destinations_string = ""
+    destinations.each do |destination|
+      destinations_string << "|" unless destinations_string == ""
+      destinations_string << "#{destination[:latitude].to_s},#{destination[:longitude].to_s}"
+    end
+
+    params = {
+      "key" => @api_key,
+      "mode" => "bicycling",
+      "origins" => "#{origin[:latitude].to_s},#{origin[:longitude].to_s}",
+      "destinations" => destinations_string,
+    }
+
+    uri = "https://maps.googleapis.com/maps/api/distancematrix/json?#{URI.escape(params.collect{|k,v| "#{k}=#{v}"}.join('&'))}"
+    query = JSON.parse(
+      open(
+        uri,
+        {ssl_verify_mode: ::OpenSSL::SSL::VERIFY_NONE}
+      ).read,
+    )
+
+    if(query["status"] != "OK")
+      raise Exceptions::APILimitReachedError if(query["status"] == "OVER_QUERY_LIMIT")
+      raise Exceptions::TooMuchDataError if(query["status"] == "MAX_ELEMENTS_EXCEEDED")
+      raise Exceptions::GoogleAPIError
+    end
+
+    i = 0
+    destinations.each do |destination|
+      destination[:duration] = query["rows"][0]["elements"][i]["duration"]["value"]
+      destination[:distance] = query["rows"][0]["elements"][i]["distance"]["value"]
+      i = i + 1
+    end
+
+    return destinations
+  end
+
   module Exceptions
     class GoogleAPIError < ::StandardError
 
     end
     class InvalidLocationError < GoogleAPIError
+
+    end
+    class TooMuchDataError < GoogleAPIError
 
     end
     class APILimitReachedError < GoogleAPIError
@@ -111,4 +153,4 @@ module Google
   end
 end
 
-#STDOUT << Google.geocode(street: "Snoeckgensheuvel 29", city: "Amersfoort", postalcode: "3817 HK")
+STDOUT << Google.distancematrix({latitude: 52.7926, longitude: 6.93824}, [{latitude: 52.2917, longitude: 5.25444}, {latitude: 52.6661, longitude: 4.76581}])

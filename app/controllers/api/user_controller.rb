@@ -110,6 +110,7 @@ module Api
           @auth_user.postalcode = address[:postalcode]
           @auth_user.latitude = address[:latitude]
           @auth_user.longitude = address[:longitude]
+          @auth_user.update_stores
           @auth_user.save
 
           if(renderpage == true)
@@ -128,7 +129,7 @@ module Api
           if(renderpage == true)
             render json: {error: true, message: "wrong arguments supplied"}, status: 400
           end
-        else
+        rescue
           if(renderpage == true)
             render json: {error: true, message: "something went wrong while geocoding the user's address"}, status: 500
           end

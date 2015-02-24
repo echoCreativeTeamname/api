@@ -25,6 +25,8 @@ class User < ActiveRecord::Base
   has_many :settings, class_name: "UserSetting", dependent: :destroy
   has_many :authenticationtokens, class_name: "AuthenticationToken", dependent: :destroy
 
+  has_and_belongs_to_many :stores
+
   def get_setting(setting_name)
     if(DEFAULT_SETTINGS.key?(setting_name.to_sym))
       return self.settings.where(key: setting_name.to_s).first.get_value || DEFAULT_SETTINGS[setting_name.to_sym]
@@ -55,6 +57,42 @@ class User < ActiveRecord::Base
   def check_uuid
     unless(self.uuid)
       self.uuid = SecureRandom.uuid
+    end
+  end
+
+  def update_stores
+    if(self.latitude && self.longitude && self.street && self.city && self.postalcode)
+
+      self.stores.clear
+
+      radius = 0.05
+      begin
+        stores = ::Store.where(latitude: (self.latitude-radius)..(self.latitude+radius), longitude: (self.longitude-radius)..(self.longitude+radius))
+        n_results = stores.size
+        radius = radius + 0.05
+      end until stores.size > 10
+
+      query_array = []
+      stores.each do |store|
+        query_array << {latitude: store.latitude, longitude: store.longitude}
+      end
+
+      query = Google.distancematrix({latitude: self.latitude, longitude: self.longitude}, query_array)
+
+      i = 0
+      stores.each do |store|
+        query[i][:store] = store
+        i = i + 1
+      end
+
+      query = query.sort do |a,b|
+        a[:duration] <=> b[:duration]
+      end
+
+      query.each do |sorted_query|
+        self.stores << sorted_query[:store]
+      end
+
     end
   end
 

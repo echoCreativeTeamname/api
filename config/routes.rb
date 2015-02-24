@@ -31,6 +31,7 @@ Rails.application.routes.draw do
       delete "/authenticate" => "user#logout"
 
       # user-information
+      get "/user/:id/stores" => "user_information#stores"
       get "/user/:id/recipes" => "user_information#recipes"
       delete "/user/:id/recipes" => "user_information#recipes_delete"
       get "/user/:id/recipes/:recipe_id" => "user_information#recipe"
