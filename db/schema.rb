@@ -97,9 +97,6 @@ ActiveRecord::Schema.define(version: 20150224222236) do
   add_index "stores_users", ["store_id"], name: "index_stores_users_on_store_id", using: :btree
   add_index "stores_users", ["user_id"], name: "index_stores_users_on_user_id", using: :btree
 
-  create_table "tables", force: :cascade do |t|
-  end
-
   create_table "user_settings", force: :cascade do |t|
     t.integer "user_id", limit: 4
     t.string  "key",     limit: 255

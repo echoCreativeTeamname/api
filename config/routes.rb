@@ -20,6 +20,12 @@ Rails.application.routes.draw do
       get "/stores" => "stores#index"
       get "/stores/:id" => "stores#show"
 
+      # storechains
+      get "/storechains" => "storechains#index"
+      get "/storechains/:id" => "storechains#show"
+      get "/storechains/:id/stores" => "storechains#stores"
+      get "/storechains/:id/products" => "storechains#products"
+
       # user
       get "/user" => "user#index"
       get "/user/:id" => "user#show", as: 'userinfo'
