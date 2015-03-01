@@ -53,7 +53,7 @@ module Api
           }, status: 201
 
         else
-          render json: {error: true, message: "Could not save new user to the database"}, status: 500
+          render json: {error: true, message: "could not save new user to the database"}, status: 500
         end
       end
     end

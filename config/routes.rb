@@ -30,10 +30,11 @@ Rails.application.routes.draw do
       get "/products" => "products#index"
       get "/products/:id" => "products#show"
       get "/products/:id/storechain" => "products#storechain"
-      
+
       #recipes
       get "/recipes" => "recipes#index"
       get "/recipes/:id" => "recipes#show"
+      get "/recipes/:id/storechain/:storechain_id" => "recipes#storechain"
 
       # user
       get "/user" => "user#index"
