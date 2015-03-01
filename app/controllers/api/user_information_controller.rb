@@ -17,21 +17,10 @@ module Api
 
     # list of recipes for the user TODO
     def recipes # /v1/user/:id/recipes (GET)
-      render json: {recieved: true}
+      recipes = ::Recipe.all
+      render json: recipes, :each_serializer => RecipeSmallSerializer, root: false, status: 200
     end
-
-    # delete recipe in list of user recipes TODO
-    def recipes_delete # /v1/user/:id/recipes (DELETE)
-
-    end
-
-    # get full recipe for specific recipe id TODO
-    def recipe # /v1/user/:id/recipes/:recipe_id (GET)
-      if(has_authentication(params[:id]))
-
-      end
-    end
-
+    
     # delete specific recipe for this user
     def recipe_delete # /v1/user/:id/recipes/:recipe_id (DELETE)
       params[:recipes] = params[:recipe_id]
