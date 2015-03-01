@@ -4,6 +4,10 @@ Recipe
  - UUID (auto)
  - url
  - name
+ - type
+ - portions
+ - cookingtime
+ - contents
  - summary
  - imageurl
 =end

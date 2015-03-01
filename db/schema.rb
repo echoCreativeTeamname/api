@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150224222236) do
+ActiveRecord::Schema.define(version: 20150301120800) do
 
   create_table "authentication_tokens", force: :cascade do |t|
     t.integer  "user_id",    limit: 4
@@ -52,12 +52,15 @@ ActiveRecord::Schema.define(version: 20150224222236) do
   end
 
   create_table "recipes", force: :cascade do |t|
-    t.string "uuid",     limit: 255
-    t.string "name",     limit: 255
-    t.text   "contents", limit: 65535
-    t.text   "summary",  limit: 65535
-    t.string "imageurl", limit: 255
-    t.string "videourl", limit: 255
+    t.string  "uuid",        limit: 255
+    t.string  "name",        limit: 255
+    t.text    "contents",    limit: 65535
+    t.text    "summary",     limit: 65535
+    t.string  "imageurl",    limit: 255
+    t.string  "videourl",    limit: 255
+    t.string  "type",        limit: 255
+    t.integer "portions",    limit: 4
+    t.float   "cookingtime", limit: 24
   end
 
   create_table "recipes_users", id: false, force: :cascade do |t|

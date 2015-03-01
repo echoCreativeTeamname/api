@@ -25,12 +25,13 @@ module Api
 		def products #/v1/storechains/:id/products
 			if(storechain = ::Storechain.where(uuid: params[:id]).distinct.first)
         products = storechain.products
-        if(num = params[:page])
-          limit = params[:limit] ? params[:limit].to_i : 200
-          products = products.limit(limit).offset(limit*num.to_i)
-        end
 
-				render json: products, root: false, :each_serializer => ProductSmallSerializer, status: 200
+        page = params[:page] ? params[:page].to_i : 0
+        limit = params[:limit] ? params[:limit].to_i : 500
+
+        products = products.limit(limit).offset(limit*page)
+
+				render json: products, root: "products", meta: {page: page, numberOfItems: limit}, meta_key: "pagination", :each_serializer => ProductSmallSerializer, status: 200
 			else
 				render json: {error: true, message: "storechain not found"}, status: 400
 			end
