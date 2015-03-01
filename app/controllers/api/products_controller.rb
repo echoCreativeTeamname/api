@@ -1,33 +1,31 @@
 module Api
-  class ProductsController < ApiController # TODO
+  class ProductsController < ApiController
 
-    def index #/v1/storechains
-      storechains = ::Storechains.all
-      render json: storechains, root: false, status: 200
+    def index #/v1/products
+      products = ::Product.all
+
+      page = params[:page] ? params[:page].to_i : 0
+      limit = params[:limit] && params[:limit].to_i <= 1000 ? params[:limit].to_i : 500
+
+      products = products.limit(limit).offset(limit*page)
+
+			render json: products, root: "products", meta: {page: page, numberOfItems: limit}, meta_key: "pagination", :each_serializer => ProductSmallerSerializer, status: 200
     end
-		
-		def show #/v1/storechains/:id
-			if(storechain = ::Storechains.where(uuid: params[:id]).distinct.first)
-				render json: storechain, root: false, status: 200
+
+		def show #/v1/products/:id
+      if(product = ::Product.where(uuid: params[:id]).first)
+				render json: product, root: false, status: 200
 			else
-				render json: {error: true, message: "storechain not found"}, root: false, status: 400
+				render json: {error: true, message: "product not found"}, status: 400
 			end
     end
-		
-		def stores #/v1/storechains/:id/stores
-			if(stores = ::Storechains.where(uuid: params[:id]).distinct.first.stores)
-				render json: stores, root: false, status: 200
-			else
-				render json: {error: true, message: "storechain not found"}, root: false, status: 400
-			end
-		end
-		
-		def products #/v1/storechains/:id/products
-			if(stores = ::Storechains.where(uuid: params[:id]).distinct.first.products)
-				render json: stores, root: false, status: 200
-			else
-				render json: {error: true, message: "storechain not found"}, root: false, status: 400
-			end
+
+		def storechain #/v1/products/:id/storechain
+      if(product = ::Product.where(uuid: params[:id]).first)
+        render json: product.storechain, root: false, status: 200
+      else
+        render json: {error: true, message: "product not found"}, status: 400
+      end
 		end
 
   end

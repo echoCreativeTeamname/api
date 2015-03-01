@@ -27,7 +27,7 @@ module Api
         products = storechain.products
 
         page = params[:page] ? params[:page].to_i : 0
-        limit = params[:limit] ? params[:limit].to_i : 500
+        limit = params[:limit] && params[:limit].to_i <= 1000 ? params[:limit].to_i : 500
 
         products = products.limit(limit).offset(limit*page)
 

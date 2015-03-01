@@ -5,7 +5,7 @@ class CreateJoinTablesIngredientRecipeUser < ActiveRecord::Migration
       t.index :user_id
     end
 
-    create_join_table :recipes, :ingredients do |t|
+    create_join_table :recipes, :ingredients, table_name: :recipeingredients do |t|
       t.index :recipe_id
       t.index :ingredient_id
       t.string :amount

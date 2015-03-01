@@ -45,7 +45,7 @@ class CreateTables < ActiveRecord::Migration
       t.integer :healthclass
     end
 
-    create_join_table :ingredients, :recipes, table_name: :recipeingredient do |t|
+    create_join_table :recipes, :ingredients, table_name: :recipeingredient do |t|
       t.string :amount
     end
 

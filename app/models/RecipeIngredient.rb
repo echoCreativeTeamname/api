@@ -5,7 +5,7 @@ Recipeingredient
   - ingredient_id (auto)
 =end
 
-class Recipeingredient < ActiveRecord::Base
+class RecipeIngredient < ActiveRecord::Base
   belongs_to :recipe
   belongs_to :ingredient
   validates :amount, presence: true
