@@ -13,8 +13,8 @@ Recipe
 =end
 
 class Recipe < ActiveRecord::Base
-  has_many :recipe_ingredients
-  has_many :ingredients, through: :recipe_ingredients
+  has_many :recipeingredients
+  has_many :ingredients, through: :recipeingredients
 
   #UUID
   before_create :check_uuid
