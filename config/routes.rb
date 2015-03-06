@@ -7,6 +7,13 @@ Rails.application.routes.draw do
   match '/422', via: :all, to: 'errors#server_error'
   match '/500', via: :all, to: 'errors#server_error'
 
+  namespace :documentation do
+    resources :v1
+
+  end
+
+
+
   namespace :api do
 
     # Root of the api
