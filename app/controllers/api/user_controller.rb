@@ -29,7 +29,7 @@ module Api
 
     def create # /v1/user (POST)
       if(!params[:email] || !params[:password])
-        render json: {error: true, message: ""}, status: 400
+        render json: {error: true, message: "required arguments: email, password"}, status: 400
       elsif(User.where(email: params[:email]).first)
         render json: {error: true, message: "user with this email address already exists"}, status: 400
       else
@@ -58,7 +58,7 @@ module Api
       end
     end
 
-    def update # /v1/user/:id (POST)
+    def update # /v1/user/:id/edit (POST)
       if(has_authentication)
         can_change = ["email", "password"]
         values = {}
@@ -97,7 +97,7 @@ module Api
       render json: @auth_user, root: "user", meta: {updated_settings: rs_status != 200}, meta_key: "status", status: rs_status
     end
 
-    def update_address(renderpage = true) # TODO also find nearest stores through the Google Distance Matrix API
+    def update_address(renderpage = true)
       if(has_authentication)
         begin
           address = Google.geocode(
@@ -152,7 +152,7 @@ module Api
       end
     end
 
-    def logout # /v1/authentication (DELETE)
+    def logout # /v1/authenticate (DELETE)
       if(has_authentication())
         begin
           @auth.destroy

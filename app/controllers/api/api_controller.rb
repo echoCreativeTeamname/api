@@ -1,6 +1,11 @@
 module Api
   class ApiController < ActionController::API
     rescue_from ActionController::RoutingError, :with => :error_page_not_found
+    before_filter :override_request_formats
+   
+    def override_request_formats
+      request.formats = [:json]
+    end
 
     def error_page_not_found
       render json: {error: true, message: "page not found"}, status: 404
