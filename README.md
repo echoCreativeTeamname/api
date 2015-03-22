@@ -1,1 +1,1 @@
-# Ruby On Rails presents: An API
+# The API for Ambrosia
