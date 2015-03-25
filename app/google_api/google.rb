@@ -9,7 +9,7 @@ API key: server-shared/config/google.yml -> api_simple_key is required
 
 module Google
 
-  @api_key = YAML::load(File.open(File.dirname(__FILE__) + '/../../../server-shared' + 'config/google.yml'))["api_simple_key"] || ""
+  @api_key = YAML::load(File.open(File.dirname(__FILE__) + '/../../../server-shared/' + 'config/google.yml'))["api_simple_key"] || ""
 
   def self.geocode(options = {})
 
