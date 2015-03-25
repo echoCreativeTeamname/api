@@ -4,12 +4,12 @@ require 'yaml'
 require 'openssl'
 
 =begin
-API key: config/google.yml -> api_simple_key is required
+API key: server-shared/config/google.yml -> api_simple_key is required
 =end
 
 module Google
 
-  @api_key = YAML::load(File.open(File.dirname(__FILE__) + '/../../' + 'config/google.yml'))["api_simple_key"] || ""
+  @api_key = YAML::load(File.open(File.dirname(__FILE__) + '/../../../server-shared' + 'config/google.yml'))["api_simple_key"] || ""
 
   def self.geocode(options = {})
 
@@ -138,17 +138,9 @@ module Google
   end
 
   module Exceptions
-    class GoogleAPIError < ::StandardError
-
-    end
-    class InvalidLocationError < GoogleAPIError
-
-    end
-    class TooMuchDataError < GoogleAPIError
-
-    end
-    class APILimitReachedError < GoogleAPIError
-
-    end
+    class GoogleAPIError < ::StandardError; end
+    class InvalidLocationError < GoogleAPIError; end
+    class TooMuchDataError < GoogleAPIError; end
+    class APILimitReachedError < GoogleAPIError; end
   end
 end
