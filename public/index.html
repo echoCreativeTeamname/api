@@ -92,9 +92,23 @@
 
       update();
     }
+
     $(window).resize(function() {
-      $("#box").scrollLeft(box*window.innerWidth);
+      sizex = window.innerWidth;
+      sizey = window.innerHeight;
+
+      $("#box").scrollLeft(box*sizex);
+
+      if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
+        sizey_fixed = sizey < 917 ? 917 : sizey
+        $(".box").css({height: sizey_fixed - 477});
+        $(".box-image").css({height: sizey_fixed - 477 - 40});
+      }
     });
+
+    $(window).resize();
+
+
     </script>
   </body>
 </html>
