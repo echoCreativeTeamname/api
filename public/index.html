@@ -99,7 +99,7 @@
 
       $("#box").scrollLeft(box*sizex);
 
-      if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
+      if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1 || navigator.appName == 'Microsoft Internet Explorer') {
         sizey_fixed = sizey < 917 ? 917 : sizey
         $(".box").css({height: sizey_fixed - 477});
         $(".box-image").css({height: sizey_fixed - 477 - 40});
@@ -107,8 +107,6 @@
     });
 
     $(window).resize();
-
-
     </script>
   </body>
 </html>
