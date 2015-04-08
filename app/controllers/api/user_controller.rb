@@ -2,13 +2,15 @@ module Api
   class UserController < ApiController
 
     def login # /v1/authenticate (POST) TODO: bcrypt!
-      error_message = {logged_in: false, error: true, message: "email or password are incorrect"}
+      error_message = {logged_in: false, error: true, message: "incorrect email or password"}
 
       params[:email] = params[:email] || ""
       params[:password] = params[:password] || ""
 
-      if(auth_user = User.where(email: params[:email], password: params[:password]).first)
-        newtoken = AuthenticationToken.create(user: auth_user, valid_till: Time.now+(3600*12))
+      if(params[:password].size > 72)
+        render json: {logged_in: false, error: true, message: "password too long"}, status: 401
+      elsif(auth_user = User.find_by(email: params[:email]).try(:authenticate, params[:password]))
+        newtoken = AuthenticationToken.create(user: auth_user, valid_till: Time.now+(3600*24*7))
         render json: newtoken, root: false, status: 200
       else
         render json: error_message, status: 401
@@ -28,8 +30,11 @@ module Api
     end
 
     def create # /v1/user (POST)
+
       if(!params[:email] || !params[:password])
         render json: {error: true, message: "required arguments: email, password"}, status: 400
+      elsif(params[:password].size > 72)
+        render json: {error: true, message: "password too long"}, status: 401
       elsif(User.where(email: params[:email]).first)
         render json: {error: true, message: "user with this email address already exists"}, status: 400
       else
@@ -38,7 +43,7 @@ module Api
         if(newuser.save)
 
           #Setup authentication
-          newtoken = AuthenticationToken.create(user: newuser, valid_till: Time.now+(3600*12))
+          newtoken = AuthenticationToken.create(user: newuser, valid_till: Time.now+(3600*24*7))
 
           @auth_user = newuser
           @auth = newtoken

@@ -9,17 +9,14 @@ Rails.application.routes.draw do
 
   namespace :documentation do
     resources :v1
-
   end
-
-
 
   namespace :api do
 
     # Root of the api
     root 'index#index'
 
-    # Api version v1_beta
+    # Api version v1
     get "/v1" => "index#v1"
     scope "/v1" do
 
