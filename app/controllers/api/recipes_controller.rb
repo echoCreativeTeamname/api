@@ -3,6 +3,22 @@ module Api
 
     def index #/v1/recipes
       recipes = ::Recipe.all
+
+      if(params[:order])
+        case params[:order]
+        when "estimated_cost"
+          recipes = recipes.order(:estimated_cost)
+        when "name"
+          recipes = recipes.order(:name)
+        when "likes"
+          # TODO
+        when "portions"
+          recipes = recipes.order(portions: :desc)
+        when "cookingtime"
+          recipes = recipes.order(:cookingtime)
+        end
+      end
+
       render json: recipes, :each_serializer => RecipeSmallSerializer, root: false, status: 200
     end
 
@@ -11,7 +27,7 @@ module Api
 				render json: recipe, root: false, status: 200
 			else
 				render json: {error: true, message: "recipe not found"}, status: 400
-			end
+      end
     end
 
 
@@ -21,7 +37,7 @@ module Api
           render_products = []
           recipe.ingredients.each do |ingredient|
             render_products << {
-              ingredient: ::IngredientSerializer.new(ingredient, root: false).as_json, 
+              ingredient: ::IngredientSerializer.new(ingredient, root: false).as_json,
               product: ::ProductSmallSerializer.new(ingredient.products.where(storechain: storechain).first, root: false).as_json
             }
           end
@@ -32,7 +48,7 @@ module Api
         end
 			else
 				render json: {error: true, message: "recipe not found"}, status: 400
-			end
+      end
     end
 
   end

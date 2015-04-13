@@ -26,7 +26,7 @@ module Api
           {method: "GET", url: "/products/[uuid]/storechain"},
 
           # recipes
-          {method: "GET", url: "/recipes"},
+          {method: "GET", url: "/recipes{?order(=estimated_cost/name/likes/portions/cookingtime)}"},
           {method: "GET", url: "/recipes/[uuid]"},
           {method: "GET", url: "/recipes/[uuid]/storechain/[storechain_uuid]"},
 

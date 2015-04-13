@@ -1,5 +1,5 @@
 class RecipeSerializer < ActiveModel::Serializer
-  attributes :uuid, :name, :summary, :contents, :imageurl, :videourl, :dish_type, :portions, :cookingtime, :ingredients
+  attributes :uuid, :name, :summary, :contents, :imageurl, :videourl, :dish_type, :portions, :cookingtime, :ingredients, :estimated_cost
 
   def ingredients
     ingredients_array = []
