@@ -3,27 +3,110 @@
     <meta charset="utf-8" />
     <title>Ambrosia! - de boodschappen app voor studenten</title>
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-    <link href="css/octicons.css" rel="stylesheet" type="text/css">
-    <link href="css/site.css" rel="stylesheet" type="text/css">
+    <link href="//assets.yoeori.nl/uva/css/site.css" rel="stylesheet" type="text/css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
 
   <body>
-    <div class="container" style="margin-top: 60px; text-align: center;">
-      <h1>Ambrosia, de boodschappen app voor studenten.</h1>
-      <h2>Momenteel zijn wij nog in ontwikkeling.</h2>
+    <div class="container title">
+      <h1><span style="color: #2ECC40">Ambrosia</span>, de boodschappen app voor studenten.</h1>
+      <h2>nu in <i>Bèta!</i> &nbsp; <a class="btn btn-green" href="https://assets.yoeori.nl/downloads/ambrosia.apk"><b>download nu!</b></a></h2>
     </div>
 
-    <div class="footer">
+    <div class="box">
+      <div class="box-scroll container-fluid" id="box">
+        <div class="row inline-row">
+          <div class="col-xs-12">
+            <div class="row">
+              <div class="col-md-8 col-md-offset-2" style="white-space: normal;">
+                <img class="box-image" src="https://uploads.yoeori.nl/ambrosia_screenshots/1.jpg"/>
+                <h3>Lorem ipsum dolor sit amet!</h3>
+                <p>Pellentesque massa nisi, accumsan sit amet iaculis vitae, tempor eget ante. Nunc finibus eget nisi accumsan pulvinar. Suspendisse sollicitudin sapien malesuada congue lobortis. Cras a euismod mauris.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-xs-12">
+            <div class="row">
+              <div class="col-md-8 col-md-offset-2" style="white-space: normal;">
+                <img class="box-image" src="https://uploads.yoeori.nl/ambrosia_screenshots/1.jpg"/>
+                <h3>Lorem ipsum dolor sit amet!</h3>
+                <p>Pellentesque massa nisi, accumsan sit amet iaculis vitae, tempor eget ante. Nunc finibus eget nisi accumsan pulvinar. Suspendisse sollicitudin sapien malesuada congue lobortis. Cras a euismod mauris.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-xs-12">
+            <div class="row">
+              <div class="col-md-8 col-md-offset-2" style="white-space: normal;">
+                <img class="box-image" src="https://uploads.yoeori.nl/ambrosia_screenshots/1.jpg"/>
+                <h3>Lorem ipsum dolor sit amet!</h3>
+                <p>Pellentesque massa nisi, accumsan sit amet iaculis vitae, tempor eget ante. Nunc finibus eget nisi accumsan pulvinar. Suspendisse sollicitudin sapien malesuada congue lobortis. Cras a euismod mauris.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="controlLeft" class="control-left control-disabled control hidden-xs hidden-sm" onclick="previous()"><span class="glyphicon glyphicon-chevron-left"></span></div>
+      <div id="controlRight" class="control-right control hidden-xs hidden-sm" onclick="next()"><span class="glyphicon glyphicon-chevron-right"></span></div>
+    </div>
+    <footer>
       <span class="octicon octicon-code"></span>
       with <span class="octicon octicon-heart"></span> by
       <a href="https://github.com/fearmyflames">@Fearmyflames</a>,
       <a href="https://github.com/jaspervanrosendaal">@Jaspervanrosendaal</a> &amp;
       <a href="https://github.com/Yoeori">@Yoeori</a>.
       view us on <a class="octicon octicon-logo-github" style="vertical-align: text-bottom;" href="https://github.com/echoCreativeTeamname"></a>
-    </div>
+    </footer>
 
     <script type="text/javascript" src="//code.jquery.com/jquery-1.11.2.min.js"></script>
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+    box = 0;
+    function update() {
+      if(box != 0) {
+        $("#controlLeft").removeClass("control-disabled")
+      } else {
+        $("#controlLeft").addClass("control-disabled")
+      }
+
+      if(box < $(".inline-row > .col-xs-12").length-1) {
+        $("#controlRight").removeClass("control-disabled")
+      } else {
+        $("#controlRight").addClass("control-disabled")
+      }
+
+      $("#box").animate({scrollLeft: box*window.innerWidth});
+    }
+    function next() {
+      box++;
+
+      if(box >= $(".inline-row > .col-xs-12").length-1)
+        box = $(".inline-row > .col-xs-12").length-1
+
+      update();
+    }
+    function previous() {
+      box--;
+
+      if(box < 0)
+        box = 0;
+
+      update();
+    }
+
+    $(window).resize(function() {
+      sizex = window.innerWidth;
+      sizey = window.innerHeight;
+
+      $("#box").scrollLeft(box*sizex);
+
+      if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1 || navigator.appName == 'Microsoft Internet Explorer') {
+        sizey_fixed = sizey < 917 ? 917 : sizey
+        $(".box").css({height: sizey_fixed - 477});
+        $(".box-image").css({height: sizey_fixed - 477 - 40});
+      }
+    });
+
+    $(window).resize();
+    </script>
   </body>
 </html>
