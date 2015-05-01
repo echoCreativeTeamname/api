@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150408140514) do
+ActiveRecord::Schema.define(version: 20150501190605) do
 
   create_table "authentication_tokens", force: :cascade do |t|
     t.integer  "user_id",    limit: 4
@@ -38,7 +38,6 @@ ActiveRecord::Schema.define(version: 20150408140514) do
   add_index "openinghours", ["date"], name: "index_openinghours_on_date", using: :btree
 
   create_table "products", force: :cascade do |t|
-    t.string   "uuid",          limit: 255
     t.integer  "storechain_id", limit: 4
     t.integer  "ingredient_id", limit: 4
     t.string   "name",          limit: 255
@@ -49,7 +48,8 @@ ActiveRecord::Schema.define(version: 20150408140514) do
   end
 
   add_index "products", ["identifier"], name: "index_products_on_identifier", using: :btree
-  add_index "products", ["uuid"], name: "index_products_on_uuid", unique: true, using: :btree
+  add_index "products", ["ingredient_id", "storechain_id"], name: "index_products_on_ingredient_id_and_storechain_id", unique: true, using: :btree
+  add_index "products", ["ingredient_id"], name: "index_products_on_ingredient_id", using: :btree
 
   create_table "recipeingredients", force: :cascade do |t|
     t.integer "recipe_id",     limit: 4
@@ -61,15 +61,16 @@ ActiveRecord::Schema.define(version: 20150408140514) do
   add_index "recipeingredients", ["recipe_id"], name: "index_recipeingredients_on_recipe_id", using: :btree
 
   create_table "recipes", force: :cascade do |t|
-    t.string  "uuid",        limit: 255
-    t.string  "name",        limit: 255
-    t.text    "contents",    limit: 65535
-    t.text    "summary",     limit: 65535
-    t.string  "imageurl",    limit: 255
-    t.string  "videourl",    limit: 255
-    t.string  "dish_type",   limit: 255
-    t.integer "portions",    limit: 4
-    t.float   "cookingtime", limit: 24
+    t.string  "uuid",           limit: 255
+    t.string  "name",           limit: 255
+    t.text    "contents",       limit: 65535
+    t.text    "summary",        limit: 65535
+    t.string  "imageurl",       limit: 255
+    t.string  "videourl",       limit: 255
+    t.string  "dish_type",      limit: 255
+    t.integer "portions",       limit: 4
+    t.float   "cookingtime",    limit: 24
+    t.float   "estimated_cost", limit: 24
   end
 
   add_index "recipes", ["uuid"], name: "index_recipes_on_uuid", unique: true, using: :btree
@@ -114,6 +115,18 @@ ActiveRecord::Schema.define(version: 20150408140514) do
 
   add_index "stores_users", ["store_id"], name: "index_stores_users_on_store_id", using: :btree
   add_index "stores_users", ["user_id"], name: "index_stores_users_on_user_id", using: :btree
+
+  create_table "unmatched_recipes", force: :cascade do |t|
+    t.string  "name",        limit: 255
+    t.text    "contents",    limit: 65535
+    t.text    "summary",     limit: 65535
+    t.string  "imageurl",    limit: 255
+    t.string  "videourl",    limit: 255
+    t.string  "dish_type",   limit: 255
+    t.integer "portions",    limit: 4
+    t.float   "cookingtime", limit: 24
+    t.text    "ingredients", limit: 65535
+  end
 
   create_table "user_settings", force: :cascade do |t|
     t.integer "user_id", limit: 4

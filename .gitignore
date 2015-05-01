@@ -35,3 +35,4 @@ bower.json
 # Not so smart to leak our own password..
 config/database.yml
 Gemfile.lock
+.DS_Store

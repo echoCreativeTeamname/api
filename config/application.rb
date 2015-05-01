@@ -9,6 +9,7 @@ module Api
 
     config.paths['config/database'] = config.root + '../server-shared/config/database.yml'
     config.paths['config/secrets'] = config.root + '../server-shared/config/secrets.yml'
+    config.paths['app'] << config.root + '../server-shared/app'
     config.paths['app/models'] << config.root + '../server-shared/app/models'
     config.paths['db'] << config.root + '../server-shared/db'
     config.paths['db/migrate'] << config.root + '../server-shared/db/migrate'
