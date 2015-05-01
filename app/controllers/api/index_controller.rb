@@ -21,7 +21,7 @@ module Api
           {method: "GET", url: "/storechains/[uuid]/products{?page=0,limit=500}"},
 
           # products
-          {method: "GET", url: "/products{?page=0,limit=500}"},
+          {method: "GET", url: "/products{?page=0,limit=500,storechain}"},
           {method: "GET", url: "/products/[uuid]"},
           {method: "GET", url: "/products/[uuid]/storechain"},
 
@@ -40,7 +40,7 @@ module Api
           # user
           {method: "GET", url: "/user[?token]"},
           {method: "GET", url: "/user/[uuid][?token]"},
-          {method: "POST", url: "/user/[uuid]/edit[?token]{email,password,[city,street,postalcode],[latitude,longitude]}"},
+          {method: "POST", url: "/user/[uuid]/edit[?token]{email,password,{[city,street,postalcode],[latitude,longitude]}}"},
           {method: "POST", url: "/user/[uuid]/settings[?token]{setting=value}"},
           {method: "POST", url: "/user/[uuid]/address[?token,{[city,street,postalcode],[latitude,longitude]}]"},
           {method: "GET", url: "/user/[uuid]/stores[?token]"},

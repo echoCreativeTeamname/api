@@ -22,7 +22,7 @@ module Api
       if(products.size != 0)
         render json: products, root: "products", meta: {page: page, limit: limit, total: number_of_products}, meta_key: "pagination", :each_serializer => ProductSmallerSerializer, status: 200
       else
-        render json: {error: true, message: "no products found", "pagination": {page: page, limit: limit, total: number_of_products}}, status: 400
+        render json: {error: true, message: "no products found", "pagination": {page: page, limit: limit, total: number_of_products}}, status: 404
 			end
     end
 
